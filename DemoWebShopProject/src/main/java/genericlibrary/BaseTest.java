@@ -30,9 +30,9 @@ import pomrepository.LoginPage;
 public class BaseTest {
 
 	public WebDriver driver;
-	public ExtentSparkReporter sparkReporter;
-	public ExtentReports reports;
-	public ExtentTest test;
+	public static  ExtentSparkReporter sparkReporter;
+	public static ExtentReports reports;
+	public static ExtentTest test;
 	public UtilityMethods um = new UtilityMethods();
 	public LoginPage lp;
 	public HomePage hp;
@@ -44,11 +44,6 @@ public class BaseTest {
 		reports.attachReporter(sparkReporter);
 	}
 
-	@BeforeTest(alwaysRun = true)
-	public void beforeTest() {
-//		test= reports.createTest(ITestResult.class.getTypeName());
-//		test.log(Status.INFO, "Execution Started");
-	}
 
 	@BeforeClass(alwaysRun = true)
 	public void beforeClass(@Optional("Chrome")String browser) throws IOException {
@@ -56,12 +51,10 @@ public class BaseTest {
 		if (browser.equals("Chrome")) {
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
-			//test.log(Status.INFO, "Chrome Browser Launched");
 		} else if (browser.equals("Edge")) {
 
 			WebDriverManager.edgedriver().setup();
 			driver = new EdgeDriver();
-			//test.log(Status.INFO, "Edge Browser Launched");
 		} else {
 			System.out.println("Please enter a valid browser name");
 		}
@@ -87,17 +80,11 @@ public class BaseTest {
 	@AfterMethod(alwaysRun = true)
 	public void afterMethod() {
 		hp.getLogoutLink().click();
-		test.log(Status.INFO, "Performing Logout");
 	}
 
 	@AfterClass(alwaysRun = true)
 	public void afterClass() {
 		driver.close();
-	}
-
-	@AfterTest(alwaysRun = true)
-	public void afterTest() {
-		test.log(Status.INFO, "Execution Completed");
 	}
 
 	@AfterSuite(alwaysRun = true)
